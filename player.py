@@ -1,6 +1,6 @@
 class Player():
     def __init__(self):
-        pass
+        self.char = None
 
 
 class Human(Player):
