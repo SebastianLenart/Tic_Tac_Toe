@@ -3,12 +3,3 @@ class Player():
         self.char = None
 
 
-class Human(Player):
-    pass
-
-
-
-class Computer(Player):
-    pass
-
-
