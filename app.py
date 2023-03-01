@@ -21,16 +21,16 @@ choose: """
     def on_key_release(self, key):
         if key == Key.right:
             print("Right key clicked")
-            self.board.move(1, 3, 3)
+            self.board.move(1, 9, 0)
         elif key == Key.left:
             print("Left key clicked")
-            self.board.move(-1, -1, -3, constant_left=-1)
-        elif key == Key.up:
-            print("Up key clicked")
-            self.board.move(-3, -3, 1, -9)
-        elif key == Key.down:
-            print("Down key clicked")
-            self.board.move(3, 9, 1, 9)
+            self.board.move(-1, -1, 8)
+        # elif key == Key.up:
+        #     print("Up key clicked")
+        #     self.board.move(-3, -3, 1, -9)
+        # elif key == Key.down:
+        #     print("Down key clicked")
+        #     self.board.move(3, 9, 1, 9)
         elif key == Key.enter:
             print("enter clicked")
             if self.mode is not None:

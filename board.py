@@ -24,20 +24,12 @@ class Board():
         print("%s | %s | %s" % (list_chars[6], list_chars[7], list_chars[8]))
         print("*********")
 
-    def move(self, step, limit, return_step, vertical=1, constant_left=1):
+    def move(self, step, limit, next_step):
         self.list_of_char = [" ", " ", " ", " ", " ", " ", " ", " ", " "]
         self.temp_position = self.temp_position + step
         self.check_free_place(step)
         if self.temp_position == limit:
-            self.temp_position = self.temp_position - vertical * return_step
-            self.check_free_place(step)
-            self.list_of_char[self.temp_position] = self.current_char
-        elif self.temp_position == limit + constant_left * return_step:
-            self.temp_position = self.temp_position - vertical * return_step
-            self.check_free_place(step)
-            self.list_of_char[self.temp_position] = self.current_char
-        elif self.temp_position == limit + 2 * return_step * constant_left:
-            self.temp_position = self.temp_position - vertical * return_step
+            self.temp_position = next_step
             self.check_free_place(step)
             self.list_of_char[self.temp_position] = self.current_char
         else:
@@ -50,4 +42,5 @@ class Board():
 
     def check_free_place(self, step):
         if self.temp_position in list(self.sets_save_chars):
-            self.current_char = "w" # unneccesary
+            # self.current_char = "w" # unneccesary
+            pass
