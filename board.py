@@ -1,20 +1,16 @@
+from colorama import Fore, Back, Style
+
+class Colors:
+    red = '\033[31m'
+
 class Board():
     def __init__(self):
         self.current_char = "X"
         self.confirm_char = {"X": [], "O": []}
-        self.temp_position = 0
-        self.list_of_char = [self.current_char, " ", " ", " ", " ", " ", " ", " ", " "]
-        self.create_board()
-        self.sets_save_chars = set()
-        # self.move_char_on_board(self.list_of_char)
-
-    def create_board(self):
-        print("CLICK ARROW to START")
-        print("  |   |  ")
-        print("__|___|__")
-        print("  |   |  ")
-        print("__|___|__")
-        print("  |   |  ")
+        self.temp_position = -1
+        self.list_of_char = [" ", " ", " ", " ", " ", " ", " ", " ", " "]
+        self.set_chars = [" ", " ", " ", " ", " ", " ", " ", " ", " "]
+        self.display_board(self.list_of_char)
 
     def display_board(self, list_chars):
         print("%s | %s | %s" % (list_chars[0], list_chars[1], list_chars[2]))
@@ -22,25 +18,33 @@ class Board():
         print("%s | %s | %s" % (list_chars[3], list_chars[4], list_chars[5]))
         print("__|___|__")
         print("%s | %s | %s" % (list_chars[6], list_chars[7], list_chars[8]))
-        print("*********")
+        print(Colors.red+'*********')
 
     def move(self, step, limit, next_step):
         self.list_of_char = [" ", " ", " ", " ", " ", " ", " ", " ", " "]
+        self.list_of_char = self.set_chars[:]
         self.temp_position = self.temp_position + step
-        self.check_free_place(step)
+        print("temp_pos", self.temp_position)
         if self.temp_position == limit:
             self.temp_position = next_step
-            self.check_free_place(step)
+            self.check_free_place(step, next_step, limit)
             self.list_of_char[self.temp_position] = self.current_char
         else:
+            self.check_free_place(step, next_step, limit)
             self.list_of_char[self.temp_position] = self.current_char
         self.display_board(self.list_of_char)
 
     def save_char(self):
-        self.sets_save_chars.add(self.temp_position)
-        print("savechar", self.sets_save_chars)
+        if self.temp_position >= 0:
+            self.set_chars[self.temp_position] = self.current_char
+            print([number for number, position in enumerate(self.set_chars) if position in ["X", "O"]])
 
-    def check_free_place(self, step):
-        if self.temp_position in list(self.sets_save_chars):
-            # self.current_char = "w" # unneccesary
-            pass
+    def check_free_place(self, step, next_step, limit):
+        if " " not in self.set_chars:
+            print("End Game, pat")
+            exit()
+        while self.set_chars[self.temp_position] in ["X", "O"]:
+            self.temp_position = self.temp_position + step
+            if self.temp_position == limit:
+                self.temp_position = next_step
+

@@ -25,16 +25,10 @@ choose: """
         elif key == Key.left:
             print("Left key clicked")
             self.board.move(-1, -1, 8)
-        # elif key == Key.up:
-        #     print("Up key clicked")
-        #     self.board.move(-3, -3, 1, -9)
-        # elif key == Key.down:
-        #     print("Down key clicked")
-        #     self.board.move(3, 9, 1, 9)
         elif key == Key.enter:
             print("enter clicked")
-            if self.mode is not None:
-                self.board.save_char()
+            self.board.save_char()
+            self.board.display_board(self.board.set_chars)
         elif key == Key.esc:
             exit()
 
