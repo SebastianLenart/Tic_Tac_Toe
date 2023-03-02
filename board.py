@@ -24,14 +24,9 @@ class Board():
         self.list_of_char = [" ", " ", " ", " ", " ", " ", " ", " ", " "]
         self.list_of_char = self.set_chars[:]
         self.temp_position = self.temp_position + step
-        print("temp_pos", self.temp_position)
-        if self.temp_position == limit:
-            self.temp_position = next_step
-            self.check_free_place(step, next_step, limit)
-            self.list_of_char[self.temp_position] = self.current_char
-        else:
-            self.check_free_place(step, next_step, limit)
-            self.list_of_char[self.temp_position] = self.current_char
+        self.check_free_place(step, next_step, limit)
+        print("temp_pos2", self.temp_position)
+        self.list_of_char[self.temp_position] = self.current_char
         self.display_board(self.list_of_char)
 
     def save_char(self):
@@ -43,8 +38,12 @@ class Board():
         if " " not in self.set_chars:
             print("End Game, pat")
             exit()
+        if self.temp_position == limit:
+            self.temp_position = next_step
         while self.set_chars[self.temp_position] in ["X", "O"]:
-            self.temp_position = self.temp_position + step
             if self.temp_position == limit:
                 self.temp_position = next_step
+            else:
+                self.temp_position = self.temp_position + step
+
 
