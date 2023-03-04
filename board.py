@@ -2,12 +2,15 @@
 
 class Board():
     def __init__(self):
-        self.current_char = " "
-        self.confirm_char = {"X": [], "O": []}
+        self.current_char = "X"
+        self.confirm_char = {"X": set(), "O": set()}
         self.temp_position = -1
         self.list_of_char = [" ", " ", " ", " ", " ", " ", " ", " ", " "]
         self.set_chars = [" ", " ", " ", " ", " ", " ", " ", " ", " "]
         self.display_board(self.list_of_char)
+
+    def get_set_numbers(self):
+        return [number for number, position in enumerate(self.set_chars) if position in ["X", "O"]]
 
     def display_board(self, list_chars):
         print("%s | %s | %s" % (list_chars[0], list_chars[1], list_chars[2]))
@@ -26,15 +29,22 @@ class Board():
         self.display_board(self.list_of_char)
 
     def save_char(self):
-        if self.temp_position >= 0:
-            self.set_chars[self.temp_position] = self.current_char
-            self.confirm_char[self.current_char].append(self.temp_position)
-            print(self.confirm_char)
-            # print([number for number, position in enumerate(self.set_chars) if position in ["X", "O"]])
-            self.display_board(self.set_chars)
-        if " " not in self.set_chars:
-            print("End Game, pat")
-            exit()
+        # all_save_numbers = [number for number, position in enumerate(self.set_chars) if position in ["X", "O"]]
+        # print("all_numbers", all_save_numbers)
+        # if self.temp_position in all_save_numbers:
+        #     return
+        self.set_chars[self.temp_position] = self.current_char
+        self.confirm_char[self.current_char].add(self.temp_position)
+        print(self.confirm_char)
+        self.display_board(self.set_chars)
+
+        self.check_win()
+
+    def check_win(self):
+        pass
+        # if " " not in self.set_chars:
+        #     print("End Game, pat")
+        #     exit()
 
     def check_free_place(self, step, next_step, limit):
         if self.temp_position == limit:

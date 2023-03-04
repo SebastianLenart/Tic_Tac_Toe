@@ -2,6 +2,7 @@ from board import Board
 from pynput import keyboard
 from pynput.keyboard import Key
 from player import Player
+import random
 
 
 class Game():
@@ -15,7 +16,8 @@ choose: """
         self.list_of_players = []
         self.start()
         self.board = Board()
-        self.turn = 0
+        self.turn = 1
+        self.numbers_on_board = {0, 1, 2, 3, 4, 5, 6, 7, 8}
         with keyboard.Listener(on_release=self.on_key_release) as listener:
             listener.join()
 
@@ -28,9 +30,10 @@ choose: """
             self.board.move(-1, -1, 8)
         elif key == Key.enter:
             print("enter clicked")
-            self.board.save_char()
-            self.next_turn()
-            self.auto_mode()
+            if self.board.temp_position >= 0 and self.board.temp_position not in self.board.get_set_numbers():
+                self.board.save_char()
+                self.next_turn()
+                self.auto_mode()
         elif key == Key.esc:
             exit()
 
@@ -38,16 +41,16 @@ choose: """
         selection = input(self.MENU)
         while selection not in ['1', '2']:
             print("Enter correct value!")
-        print(self.mode, type(self.mode))
+        self.mode = selection
         if self.mode == "1":
-            name1 = input("Enter name of player 1")
-            name2 = input("Enter name of player 2")
-            self.list_of_players.append(Player(name1, "X", 1))
-            self.list_of_players.append(Player(name2, "O", 1))
+            name1 = input("Enter name of player 1: ")
+            name2 = input("Enter name of player 2: ")
+            self.list_of_players.append(Player(name1, "X"))
+            self.list_of_players.append(Player(name2, "O"))
         else:
-            name1 = input("Enter name of player")
-            self.list_of_players.append(Player(name1, "X", 2))
-            self.list_of_players.append(Player("Computer", "O", 2))
+            name1 = input("Enter name of player: ")
+            self.list_of_players.append(Player(name1, "X"))
+            self.list_of_players.append(Player("Computer", "O"))
 
     def next_turn(self):
         self.board.current_char = self.list_of_players[self.turn].get_char()
@@ -57,24 +60,17 @@ choose: """
 
     def auto_mode(self):
         if self.mode == "2":
-            pass
+            try:
+                number = random.choice(list(self.numbers_on_board - set(self.board.get_set_numbers())))
+                print("random:", number)
+                self.board.temp_position = number
+            except IndexError:
+                print("PAT")
+                exit()
+
+            self.board.save_char()
+            self.next_turn()
+
 
 if __name__ == "__main__":
     game = Game()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
