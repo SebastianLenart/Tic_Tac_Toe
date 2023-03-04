@@ -1,11 +1,8 @@
-from colorama import Fore, Back, Style
 
-class Colors:
-    red = '\033[31m'
 
 class Board():
     def __init__(self):
-        self.current_char = "X"
+        self.current_char = " "
         self.confirm_char = {"X": [], "O": []}
         self.temp_position = -1
         self.list_of_char = [" ", " ", " ", " ", " ", " ", " ", " ", " "]
@@ -18,32 +15,34 @@ class Board():
         print("%s | %s | %s" % (list_chars[3], list_chars[4], list_chars[5]))
         print("__|___|__")
         print("%s | %s | %s" % (list_chars[6], list_chars[7], list_chars[8]))
-        print(Colors.red+'*********')
+        print('*********')
 
     def move(self, step, limit, next_step):
         self.list_of_char = [" ", " ", " ", " ", " ", " ", " ", " ", " "]
         self.list_of_char = self.set_chars[:]
         self.temp_position = self.temp_position + step
         self.check_free_place(step, next_step, limit)
-        print("temp_pos2", self.temp_position)
         self.list_of_char[self.temp_position] = self.current_char
         self.display_board(self.list_of_char)
 
     def save_char(self):
         if self.temp_position >= 0:
             self.set_chars[self.temp_position] = self.current_char
-            print([number for number, position in enumerate(self.set_chars) if position in ["X", "O"]])
-
-    def check_free_place(self, step, next_step, limit):
+            self.confirm_char[self.current_char].append(self.temp_position)
+            print(self.confirm_char)
+            # print([number for number, position in enumerate(self.set_chars) if position in ["X", "O"]])
+            self.display_board(self.set_chars)
         if " " not in self.set_chars:
             print("End Game, pat")
             exit()
+
+    def check_free_place(self, step, next_step, limit):
         if self.temp_position == limit:
             self.temp_position = next_step
         while self.set_chars[self.temp_position] in ["X", "O"]:
+            self.temp_position = self.temp_position + step
             if self.temp_position == limit:
                 self.temp_position = next_step
-            else:
-                self.temp_position = self.temp_position + step
+
 
 
