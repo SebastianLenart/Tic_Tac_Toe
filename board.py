@@ -1,6 +1,8 @@
-
-
 class Board():
+    LINES = [[0, 1, 2], [3, 4, 5], [6, 7, 8],
+             [0, 3, 6], [1, 4, 7], [2, 5, 8],
+             [0, 4, 8], [2, 4, 6]]
+
     def __init__(self):
         self.current_char = "X"
         self.confirm_char = {"X": set(), "O": set()}
@@ -29,22 +31,21 @@ class Board():
         self.display_board(self.list_of_char)
 
     def save_char(self):
-        # all_save_numbers = [number for number, position in enumerate(self.set_chars) if position in ["X", "O"]]
-        # print("all_numbers", all_save_numbers)
-        # if self.temp_position in all_save_numbers:
-        #     return
         self.set_chars[self.temp_position] = self.current_char
         self.confirm_char[self.current_char].add(self.temp_position)
         print(self.confirm_char)
         self.display_board(self.set_chars)
 
-        self.check_win()
-
-    def check_win(self):
-        pass
-        # if " " not in self.set_chars:
-        #     print("End Game, pat")
-        #     exit()
+    def check_win(self, players):
+        for line in self.LINES:
+            if set(line).issubset(self.confirm_char[self.current_char]):
+                for player in players:
+                    if player.get_char() == self.current_char:
+                        print("GAME OVER, THE WINNER IS", player)
+                        exit()
+        if " " not in self.set_chars:
+            print("End Game, pat")
+            exit()
 
     def check_free_place(self, step, next_step, limit):
         if self.temp_position == limit:
@@ -53,6 +54,3 @@ class Board():
             self.temp_position = self.temp_position + step
             if self.temp_position == limit:
                 self.temp_position = next_step
-
-
-

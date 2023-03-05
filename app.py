@@ -32,6 +32,7 @@ choose: """
             print("enter clicked")
             if self.board.temp_position >= 0 and self.board.temp_position not in self.board.get_set_numbers():
                 self.board.save_char()
+                self.board.check_win(self.list_of_players)
                 self.next_turn()
                 self.auto_mode()
         elif key == Key.esc:
@@ -69,6 +70,7 @@ choose: """
                 exit()
 
             self.board.save_char()
+            self.board.check_win(self.list_of_players)
             self.next_turn()
 
 
